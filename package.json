@@ -13,6 +13,7 @@
 		"onCommand:sharex-api-uploader.share",
 		"onCommand:sharex-api-uploader.setSecret"
 	],
+	"repository": "https://github.com/busheezy/vscode-sharex-api-uploader",
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
