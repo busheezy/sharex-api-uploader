@@ -36,7 +36,7 @@ export async function activate(context: ExtensionContext) {
       }
 
       if (!responseUrl) {
-        window.showErrorMessage("Auth secret not set!");
+        window.showErrorMessage("Response URL is not set.");
         return false;
       }
 
