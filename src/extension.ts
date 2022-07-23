@@ -61,9 +61,6 @@ export async function activate(context: ExtensionContext) {
           responseType: "text",
         });
 
-        window.showInformationMessage(paste);
-        window.showInformationMessage(typeof paste);
-
         const pasteObj = JSON.parse(paste);
         const { stringId } = pasteObj;
         const fullResponseUrl = `${responseUrl}/${stringId}`;
