@@ -1,9 +1,16 @@
 import { window, ExtensionContext, commands, workspace, env } from "vscode";
 import AuthSettings from "./AuthSettings";
-import { Axios } from "axios";
 import * as FormData from "form-data";
+import got from "got";
 
-const axios = new Axios({});
+interface Paste {
+  deleteKey: string;
+  deletePass: string;
+  fileName: string;
+  fileType: string;
+  id: number;
+  stringId: string;
+}
 
 export async function activate(context: ExtensionContext) {
   AuthSettings.init(context);
@@ -41,6 +48,7 @@ export async function activate(context: ExtensionContext) {
       }
 
       const form = new FormData();
+
       form.append(
         "paste",
         currentText,
@@ -48,21 +56,17 @@ export async function activate(context: ExtensionContext) {
       );
 
       try {
-        const { data: paste } = await axios.request({
-          method: "post",
-          url: apiUrl,
-          data: form,
-          headers: {
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            "Content-Type": "mutipart/form-data",
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            "X-API-Key": authSecret,
-          },
-          responseType: "text",
-        });
+        const res = await got
+          .post(apiUrl, {
+            body: form,
+            headers: {
+              // eslint-disable-next-line @typescript-eslint/naming-convention
+              "X-API-Key": authSecret,
+            },
+          })
+          .json<Paste>();
 
-        const pasteObj = JSON.parse(paste);
-        const { stringId } = pasteObj;
+        const { stringId } = res;
         const fullResponseUrl = `${responseUrl}/${stringId}`;
 
         env.clipboard.writeText(fullResponseUrl);
