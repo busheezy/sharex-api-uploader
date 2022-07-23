@@ -1,4 +1,4 @@
-# sharex-api-uploader
+# vscode-sharex-api-uploader
 
 Quick and dirty share extension.
 
